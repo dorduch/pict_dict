@@ -28,7 +28,7 @@ export default class MainView extends React.Component {
   }
 
 
-  onChildClicked({ id }) {
+  onChildClicked({ id } ) {
     this.props.navigation.navigate('word', { id })
   }
 

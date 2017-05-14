@@ -9,7 +9,7 @@ class MainImage extends Component {
   render() {
     return (
       <View style={style.container}>
-        <Image source={{ uri: this.props.data }} style={{width: 200, height: 200}}/>
+        <Image source={ this.props.data } style={{width: 200, height: 200}}/>
       </View>
     )
   }

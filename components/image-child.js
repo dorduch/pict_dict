@@ -18,7 +18,7 @@ class ImageChild extends Component {
     return (
       <View style={styles.container}>
         <TouchableHighlight onPress={() => {this.props.onClick(this.props)}}>
-          <Image source={{ uri: this.props.image }} on style={{ width: 100, height: 100 }}>
+          <Image source={ this.props.image } on style={{ width: 100, height: 100 }}>
             <Text>{this.props.name}</Text>
           </Image>
         </TouchableHighlight>

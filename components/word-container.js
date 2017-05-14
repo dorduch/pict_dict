@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import MainImage from './main-image';
 import ImageChildrenWrapper from './image-children-wrapper'
-import { Container, Content } from 'native-base';
+// import { Container, Content } from 'native-base';
 
 import {
   AppRegistry,
@@ -38,9 +39,8 @@ class WordContainer extends Component {
 
 
 WordContainer.propTypes = {
-  image: React.PropTypes.string,
-  children: React.PropTypes.array,
-  onChildClicked: React.PropTypes.func
+  children: PropTypes.array,
+  onChildClicked: PropTypes.func
 };
 
 export default WordContainer;
