@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { StyleSheet, Text, View, Image } from 'react-native';
 import ImageChildrenWrapper from '../components/image-children-wrapper';
-import StorageService from '../storage.service';
+import StorageService from '../services/storage.service';
 
-export default class MainView extends React.Component {
+export default class MainView extends Component {
   constructor(props) {
     super(props);
     this.onChildClicked = this.onChildClicked.bind(this);
@@ -11,6 +11,7 @@ export default class MainView extends React.Component {
       loading: true
     }
   }
+
 
   async componentDidMount() {
     try {

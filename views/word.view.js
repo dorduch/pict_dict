@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import WordContainer from '../components/word-container';
-import StorageService from '../storage.service';
+import StorageService from '../services/storage.service';
 
 
 export default class MainView extends React.Component {
