@@ -5,10 +5,8 @@ import { Container, Content, Spinner } from 'native-base';
 export default class LoadingSpinner extends Component {
     render() {
         return (
-            <Container>
-                <Content>
+            <Container style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
                     <Spinner />
-                </Content>
             </Container>
         );
     }

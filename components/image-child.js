@@ -1,3 +1,4 @@
+// @flow
 import React, { Component } from 'react';
 import {
   StyleSheet,
@@ -14,6 +15,12 @@ const styles = StyleSheet.create({
 });
 
 class ImageChild extends Component {
+  props: {
+    image: number,
+    name: string,
+    onClick: Function
+  }
+  
   render() {
     console.log("in image child: ", this.props);
     return (
