@@ -15,6 +15,7 @@ const styles = StyleSheet.create({
 
 class ImageChild extends Component {
   render() {
+    console.log("in image child: ", this.props);
     return (
       <View style={styles.container}>
         <TouchableHighlight onPress={() => {this.props.onClick(this.props)}}>

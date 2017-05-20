@@ -1,46 +1,43 @@
-import React, { Component } from 'react';
+// @flow
+import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import MainImage from './main-image';
-import ImageChildrenWrapper from './image-children-wrapper'
-// import { Container, Content } from 'native-base';
+import ImageChildrenWrapper from './image-children-wrapper';
+import type {Word} from '../types/types';
 
-import {
-  AppRegistry,
-  StyleSheet,
-  Text,
-  View
-} from 'react-native';
+import {AppRegistry, StyleSheet, Text, View} from 'react-native';
 
-const styles = StyleSheet.create({
+const styles = StyleSheet.create ({
   container: {
     flex: 1,
     flexDirection: 'column',
-    alignItems: 'center'
+    alignItems: 'center',
     // height: 20
-  }
+  },
 });
 
-
 class WordContainer extends Component {
-  constructor(props) {
-    super(props);
-  }
-
-  render() {
+  props: {
+    children: Array<Word>,
+    onChildClicked:  (word: Word) => void,
+    image: number | null,
+    showImage: boolean,
+  };
+  static defaultProps: {
+    showImage: true | false,
+  };
+  render () {
+    console.log(this.props);
     return (
       <View style={styles.container}>
-        <MainImage data={this.props.image}/>
-        <ImageChildrenWrapper onChildClicked={this.props.onChildClicked} children={this.props.children}/>
+        {this.props.showImage && <MainImage data={this.props.image} />}
+        <ImageChildrenWrapper
+          onChildClicked={this.props.onChildClicked}
+          children={this.props.children}
+        />
       </View>
-    )
+    );
   }
 }
-
-
-
-WordContainer.propTypes = {
-  children: PropTypes.array,
-  onChildClicked: PropTypes.func
-};
 
 export default WordContainer;

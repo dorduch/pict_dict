@@ -1,49 +1,73 @@
-import React, { Component } from 'react';
-import { StyleSheet, Text, View, Image } from 'react-native';
-import ImageChildrenWrapper from '../components/image-children-wrapper';
+//@flow
+import React, {Component} from 'react';
+import {StyleSheet, Text, View, Image} from 'react-native';
+import WordContainer from '../components/word-container';
 import StorageService from '../services/storage.service';
+import type {Word} from '../types/types';
+import LoadingSpinner from '../components/loading-spinner';
 
 export default class MainView extends Component {
-  constructor(props) {
-    super(props);
-    this.onChildClicked = this.onChildClicked.bind(this);
+  onChildClicked: Function;
+  state: {
+    root: Word,
+    children: Array<Word>,
+    loading: boolean,
+  };
+  props: {
+    id: number | null,
+    navigation: Object,
+  };
+
+  constructor (props: Object) {
+    super (props);
+    this.onChildClicked = this.onChildClicked.bind (this);
     this.state = {
-      loading: true
-    }
+      loading: true,
+      root: {
+        name: '',
+        children: [],
+        id: -1,
+        image: -1,
+      },
+      children: [],
+    };
   }
 
-
-  async componentDidMount() {
-    try {
-      this.root = await StorageService.init();
-      console.log('root', this.root);
-      this.children = (await StorageService.getMultiId(this.root.children));
-      console.log('children', this.children);
-      this.setState({
-        loading: false
+  componentDidMount () {
+    const navParams = this.props.navigation.state.params;
+    const initFunction = navParams ? StorageService.getId : StorageService.init;
+    initFunction (navParams && navParams.id)
+      .then ((res: Word) => {
+        this.setState ({root: res});
+        console.log ('root', this.state.root);
+        return StorageService.getMultiId (res.children);
       })
-    }
-    catch (err) {
-      console.log(err);
-    }
+      .then ((children: Array<Word>) => {
+        this.setState ({children: children});
+        console.log ('children', this.state.children);
+        this.setState ({loading: false});
+      });
   }
 
-
-  onChildClicked({ id } ) {
-    this.props.navigation.navigate('word', { id })
+  onChildClicked({id}: Word) {
+    this.props.navigation.navigate ('main', {id});
   }
 
-  render() {
-    return !this.state.loading ? (
-      <View style={styles.container}>
-        <ImageChildrenWrapper onChildClicked={this.onChildClicked}
-                              children={this.children}/>
-      </View>
-    ) : null;
+  render () {
+    return !this.state.loading
+      ? <View style={styles.container}>
+          <WordContainer
+            image={this.state.root.image}
+            showImage={!!this.state.root.image}
+            onChildClicked={this.onChildClicked}
+            children={this.state.children}
+          />
+        </View>
+      : <LoadingSpinner />;
   }
 }
 
-const styles = StyleSheet.create({
+const styles = StyleSheet.create ({
   container: {
     flex: 1,
     backgroundColor: '#14ff91',

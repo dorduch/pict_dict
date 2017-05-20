@@ -1,9 +1,11 @@
+// @flow
 import React, { Component } from 'react';
 import {
   View
 } from 'react-native';
 import { Content } from 'native-base';
 import ImageChild from './image-child';
+import type { Word } from '../types/types';
 
 const styles = {
   container: {
@@ -18,6 +20,10 @@ const styles = {
 
 
 class ImageChildrenWrapper extends Component {
+  props: {
+    children: Array<Word>,
+    onChildClicked: (word: Word) => void
+  }
 
   render() {
     const children = this.props.children.map((child, index) => (

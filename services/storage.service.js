@@ -1,107 +1,93 @@
 // @flow
-import { AsyncStorage } from 'react-native';
-import { createWord }  from '../models/word';
-import type { Word }  from '../types/types';
-const dummy : Array<Word> = [
+import {AsyncStorage} from 'react-native';
+import {createWord} from '../models/word';
+import type {Word} from '../types/types';
+const dummy: Array<Word> = [
   {
     id: 0,
     name: 'root',
-    children: [1, 4],
-    image: null
+    children: [3, 4],
+    image: null,
   },
   {
     id: 1,
     name: 'conversations',
-    image: require('../assets/img/hand.png').toString(),
-    children: [2, 3]
+    image: require ('../assets/img/hand.png'),
+    children: [2, 3],
   },
   {
     id: 2,
     name: 'hello',
-    image: require('../assets/img/hand.png').toString(),
-    children: []
+    image: require ('../assets/img/hand.png'),
+    children: [],
   },
   {
     id: 3,
     name: 'good',
-    image: require('../assets/img/good2.jpg').toString(),
-    children: []
+    image: require ('../assets/img/good2.jpg'),
+    children: [],
   },
   {
     id: 4,
     name: 'food',
-    image: require('../assets/img/food.jpg').toString(),
-    children: [5, 6, 7, 8]
+    image: require ('../assets/img/food.jpg'),
+    children: [5, 6, 7, 8],
   },
   {
     id: 5,
     name: 'rice',
-    image: require('../assets/img/rice.png').toString(),
-    children: []
+    image: require ('../assets/img/rice.png'),
+    children: [],
   },
   {
     id: 6,
     name: 'tomato',
-    image: require('../assets/img/tomato.jpg').toString(),
-    children: []
+    image: require ('../assets/img/tomato.jpg'),
+    children: [],
   },
   {
     id: 7,
     name: 'beef',
-    image: require('../assets/img/cow.jpg').toString(),
-    children: []
+    image: require ('../assets/img/cow.jpg'),
+    children: [],
   },
   {
     id: 8,
     name: 'pork',
-    image: require('../assets/img/pig.jpg').toString(),
-    children: []
+    image: require ('../assets/img/pig.jpg'),
+    children: [],
   },
-
 ];
 
 const StorageService = {
-
-  async init() {
-    try {
-      // await AsyncStorage.clear();
-      // const appKey = await AsyncStorage.getItem('picture_dict_zohar_dor');
-      // if (!appKey) {
-      dummy.forEach(async (item: Word) => {
-        const word = createWord(item);
-        await AsyncStorage.setItem(`picture_dict_zohar_dor_${item.id}`, JSON.stringify(word));
-      });
-      await AsyncStorage.setItem('picture_dict_zohar_dor', `1`);
-
-      // }
-      return createWord(JSON.parse(await AsyncStorage.getItem('picture_dict_zohar_dor_0')));
-    }
-    catch (err) {
-      console.log(err);
-    }
+  init () {
+    const promiseArr = [];
+    dummy.forEach (async (item: Word) => {
+      const word = createWord (item);
+      promiseArr.push (
+        AsyncStorage.setItem (
+          `picture_dict_zohar_dor_${item.id}`,
+          JSON.stringify (word)
+        )
+      );
+    });
+    promiseArr.push (AsyncStorage.setItem ('picture_dict_zohar_dor', `1`));
+    return Promise.all (promiseArr)
+      .then (res => AsyncStorage.getItem ('picture_dict_zohar_dor_0'))
+      .then (res => createWord (JSON.parse (res)));
   },
 
-  async getId(id: number) {
-    try {
-      return createWord(JSON.parse(await AsyncStorage.getItem(`picture_dict_zohar_dor_${id}`)));
-    }
-    catch (err) {
-      console.log(err);
-    }
+  getId (id: number) {
+    return AsyncStorage.getItem (`picture_dict_zohar_dor_${id}`).then (res =>
+      createWord (JSON.parse (res))
+    );
   },
 
-  async getMultiId(idArr : Array<Number>) {
-    try {
-      return (await AsyncStorage.multiGet(idArr.map(id => `picture_dict_zohar_dor_${id}`)))
-        .map(item => createWord(JSON.parse(item[1])));
-    }
-    catch (err) {
-      console.log(err);
-    }
-  }
+  async getMultiId (idArr: Array<number>) {
+    return AsyncStorage.multiGet (
+      idArr.map (id => `picture_dict_zohar_dor_${id}`)
+    ).then (res => res.map (item => createWord (JSON.parse (item[1]))));
+  },
 };
 
 export default StorageService;
-
-
-

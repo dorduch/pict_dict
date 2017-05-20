@@ -2,6 +2,6 @@
 export type Word =  {
   id: number;
   name: string;
-  image: string | null;
+  image: number | null;
   children: Array<number>;
 }
