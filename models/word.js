@@ -1,4 +1,7 @@
-export function createWord(data) {
+// @flow
+import type { Word } from '../types/types';
+
+export function createWord(data : Word) : Word {
   const { id, name, image, children } = data;
   return {
     id,
