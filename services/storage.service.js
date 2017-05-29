@@ -7,7 +7,6 @@ const dummy: Array<Word> = [
     id: 0,
     name: 'root',
     children: [3, 4],
-    image: null,
   },
   {
     id: 1,
