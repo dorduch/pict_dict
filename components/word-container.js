@@ -20,17 +20,13 @@ class WordContainer extends Component {
   props: {
     children: Array<Word>,
     onChildClicked:  (word: Word) => void,
-    image: number | null,
-    showImage: boolean,
-  };
-  static defaultProps: {
-    showImage: true | false,
+    image: number,
   };
   render () {
     console.log(this.props);
     return (
       <View style={styles.container}>
-        {this.props.showImage && <MainImage data={this.props.image} />}
+        {this.props.image && <MainImage data={this.props.image} />}
         <ImageChildrenWrapper
           onChildClicked={this.props.onChildClicked}
           children={this.props.children}

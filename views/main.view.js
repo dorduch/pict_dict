@@ -3,6 +3,7 @@ import React, {Component} from 'react';
 import {StyleSheet, Text, View, Image} from 'react-native';
 import WordContainer from '../components/word-container';
 import StorageService from '../services/storage.service';
+import NetworkService from '../services/network.service';
 import type {Word} from '../types/types';
 import LoadingSpinner from '../components/loading-spinner';
 
@@ -34,6 +35,7 @@ export default class MainView extends Component {
   }
 
   componentDidMount () {
+    NetworkService.init();
     const navParams = this.props.navigation.state.params;
     const initFunction = navParams ? StorageService.getId : StorageService.init;
     initFunction (navParams && navParams.id)
@@ -58,7 +60,6 @@ export default class MainView extends Component {
       ? <View style={styles.container}>
           <WordContainer
             image={this.state.root.image}
-            showImage={!!this.state.root.image}
             onChildClicked={this.onChildClicked}
             children={this.state.children}
           />

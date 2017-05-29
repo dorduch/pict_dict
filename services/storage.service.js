@@ -62,7 +62,7 @@ const dummy: Array<Word> = [
 const StorageService = {
   init () {
     const promiseArr = [];
-    dummy.forEach (async (item: Word) => {
+    dummy.forEach ((item: Word) => {
       const word = createWord (item);
       promiseArr.push (
         AsyncStorage.setItem (
@@ -83,7 +83,7 @@ const StorageService = {
     );
   },
 
-  async getMultiId (idArr: Array<number>) {
+  getMultiId (idArr: Array<number>) {
     return AsyncStorage.multiGet (
       idArr.map (id => `picture_dict_zohar_dor_${id}`)
     ).then (res => res.map (item => createWord (JSON.parse (item[1]))));
